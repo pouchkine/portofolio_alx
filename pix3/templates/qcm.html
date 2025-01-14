@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QCM Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa;
+        }
+
+        header {
+            background-color: #00796b;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 2rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        section:hover {
+            opacity: 1;
+        }
+
+        .qcm-container {
+            margin-bottom: 1rem;
+        }
+
+        .next-button, .validate-button {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #00796b;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .next-button:hover, .validate-button:hover {
+            background-color: #004d40;
+        }
+
+        .correct-answer {
+            color: green;
+            margin-top: 1rem;
+        }
+
+        .incorrect-answer {
+            color: red;
+            margin-top: 1rem;
+        }
+
+        footer {
+            background-color: #00796b;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>QCM Details</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>{{ q.question_text }}</h2>
+            <div class="qcm-container">
+                <form action="{{ url_for('qcm',langage=course.title, level = level.difficulte, title = chapter.title, rang = q.rang) }}" method="post">
+                    <label for="qcm-select">Choose an answer:</label>
+                    <select id="qcm-select" name="selected_answer" required>
+                        <option value="" disabled selected>Select your answer</option>
+			<option value= "{{ q.first }}" >{{ q.first }}</option>
+                        <option value="{{ q.second }}">{{ q.second }} </option>
+			<option value="{{ q.tirth }}">{{ q.tirth }} </option>
+                        <option value="Option 4">others</option>
+                    </select>
+                    <button type="submit" class="validate-button">Valider</button>
+                </form>
+                {% if validation_result is not none %}
+                    {% if validation_result %}
+                        <p class="correct-answer">Correct!</p>
+                    {% else %}
+                        <p class="incorrect-answer">Incorrect. The correct answer is: {{ q.correct_answer }}</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+	    {% if q.rang == 3 %}
+	                <a href="{{ url_for('home') }}" class="next-button">Next</a>
+		{% else %}
+            <a href="{{ url_for('qcm',langage=course.title, level = level.difficulte, title = chapter.title, rang = 1 + q.rang) }}" class="next-button">Next</a>
+	    {% endif %}
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Our Learning Platform. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+

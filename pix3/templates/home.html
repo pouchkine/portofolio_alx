@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Learning Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Learning Platform</h1>
+        <nav>
+		{{ url_for('login') }}
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('parcours') }}">Courses</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>About Us</h2>
+            <p>Welcome to our learning platform where you can find a variety of courses to enhance your skills and knowledge. Join us today and start your learning journey!</p>
+        </section>
+        <section>
+            <h2>Featured Courses</h2>
+            <ul>
+                {% for course in courses %}
+                    <li>{{ course.title }} - {{ course.description }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section>
+            <h2>Our Courses</h2>
+            <p>Explore our wide range of courses and start learning today!</p>
+            <a href="{{ url_for('parcours') }}" class="btn">View Courses</a>
+        </section>
+        <section>
+            <h2>Contact Us</h2>
+            <p>If you have any questions, feel free to reach out to us!</p>
+            <form action="/contact" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+                
+                <button type="submit">Send</button>
+            </form>
+        </section>
+        <section>
+            <h2>Testimonials</h2>
+            <p>See what our students have to say about us!</p>
+            <blockquote class="testimonial"></blockquote>
+                <p>"Pixel School has transformed my career. The courses are well-structured and the instructors are top-notch!" - Jane Doe</p>
+            </blockquote>
+            <blockquote class="testimonial"></blockquote>
+                <p>"I love the flexibility of learning at my own pace. The content is engaging and very informative." - John Smith</p>
+            </blockquote>
+            <blockquote class="testimonial"></blockquote>
+                <p>"The hands-on projects and real-world examples have been invaluable. I highly recommend Pixel School!" - Alice Brown</p>
+            </blockquote>
+            <blockquote class="testimonial"></blockquote>
+                <p>"The support from the community and instructors is amazing. I've learned so much in a short time." - Michael Johnson</p>
+            </blockquote>
+            <blockquote class="testimonial"></blockquote>
+                <p>"Pixel School offers a great variety of courses that cater to all skill levels. It's been a fantastic experience!" - Emily Davis</p>
+            </blockquote>
+        </section>
+        <section>
+            <h2>Join Our Community</h2>
+            <p>Become a part of our vibrant community of learners and educators. Share your knowledge and learn from others.</p>
+            <a href="{{ url_for('register') }}" class="btn">Join Now</a>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Our Learning Platform. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #e0f7fa;
+    }
+
+    header {
+        background: #00796b;
+        color: #fff;
+        padding: 1rem 0;
+        text-align: center;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    nav ul li {
+        display: inline;
+        margin: 0 10px;
+    }
+
+    nav ul li a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    section {
+        margin-bottom: 20px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #00796b;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #00796b;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .btn:hover {
+        background: #004d40;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    form label {
+        margin-top: 10px;
+    }
+
+    form input, form textarea {
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    form button {
+        margin-top: 10px;
+        padding: 10px;
+        background: #00796b;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    form button:hover {
+        background: #004d40;
+    }
+
+    footer {
+        text-align: center;
+        padding: 10px;
+        background: #00796b;
+        color: #fff;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+    .testimonial {
+        margin-bottom: 20px;
+        animation: fadeIn 2s;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa;
+        }
+
+        header {
+            background-color: #00796b;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 2rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        section:hover {
+            opacity: 1;
+        }
+
+        .form-container {
+            margin-bottom: 2rem;
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container form input,
+        .form-container form select,
+        .form-container form button {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #00796b;
+            border-radius: 4px;
+        }
+
+        .user-list, .course-list {
+            margin-bottom: 2rem;
+        }
+
+        .user-list ul, .course-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .user-list li, .course-list li {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid #00796b;
+            border-radius: 4px;
+            background-color: #e0f2f1;
+        }
+
+        footer {
+            background-color: #00796b;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admin Interface</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="form-container">
+            <h2>Add Course</h2>
+            <form action="{{ url_for('add_course') }}" method="POST">
+                <input type="text" name="title" placeholder="Course Title" required>
+                <input type="text" name="description" placeholder="Course Description" required>
+		<input type="text" name="teacher_id" placeholder="teacher_id" required>
+                <button type="submit">Add Course</button>
+            </form>
+        </section>
+        <section class="form-container">
+            <h2>Add Level</h2>
+            <form action="{{ url_for('add_level') }}" method="POST">
+                <select name="course_id" required>
+                    <option value="" disabled selected>Select Course</option>
+                    {% for course in courses %}
+                        <option value="{{ course.id }}">{{ course.title }}</option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="difficulte" placeholder="Level Difficulty" required>
+                <button type="submit">Add Level</button>
+            </form>
+        </section>
+        <section class="form-container">
+            <h2>Add Chapter</h2>
+            <form action="{{ url_for('add_chapter') }}" method="POST">
+                <select name="level_id" required>
+                    <option value="" disabled selected>Select Level</option>
+                    {% for course in courses %}
+                        {% for level in course.levels %}
+                            <option value="{{ level.id }}">{{ course.title }} - {{ level.difficulte }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+                <input type="text" name="title" placeholder="Chapter Title" required>
+                <textarea name="content" placeholder="Chapter Content" required></textarea>
+                <button type="submit">Add Chapter</button>
+            </form>
+        </section>
+        <section class="form-container">
+            <h2>Add QCM</h2>
+            <form action="{{ url_for('add_qcm') }}" method="POST">
+                <select name="chapter_id" required>
+                    <option value="" disabled selected>Select Chapter</option>
+                    {% for course in courses %}
+                        {% for level in course.levels %}
+                            {% for chapter in level.chapters %}
+                                <option value="{{ chapter.id }}">{{ course.title }} - {{ level.difficulte }} - {{ chapter.title }}</option>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+                <input type="text" name="question_text" placeholder="Question Text" required>
+                <input type="text" name="correct_answer" placeholder="Correct Answer" required>
+                <button type="submit">Add QCM</button>
+            </form>
+        </section>
+        <section class="user-list">
+            <h2>Users</h2>
+            <ul>
+                {% for user in users %}
+                    <li>{{ user.username }} - {{ user.email }} - {{ user.role }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Our Learning Platform. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+

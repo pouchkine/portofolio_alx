@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ chapter.title }} Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa;
+        }
+
+        header {
+            background-color: #00796b;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 2rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        section:hover {
+            opacity: 1;
+        }
+
+        .video-container {
+            margin-bottom: 1rem;
+        }
+
+        .article-container {
+            margin-bottom: 1rem;
+        }
+
+        .qcm-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #00796b;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .qcm-link:hover {
+            background-color: #004d40;
+        }
+
+        footer {
+            background-color: #00796b;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{ chapter.title }} Details</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>{{ chapter.title }}</h2>
+            <div class="video-container">
+                <h3>Video</h3>
+                <video width="100%" controls>
+                    <source src="{{ chapter.video }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="article-container">
+                <h3>Article</h3>
+                <p>{{ chapter.article }}</p>
+            </div>
+           <a href="{{ url_for('qcm', langage=course.title, level = level.difficulte, title = chapter.title, rang = 1) }}" class="qcm-link">Go to QCM</a>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Our Learning Platform. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+

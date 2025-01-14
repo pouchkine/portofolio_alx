@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        header {
+            background-color: #00796b;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+        }
+        h1 {
+            text-align: center;
+            color: #00796b;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #e0f7fa;
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        li:hover {
+            background-color: #b2ebf2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Chapters for {{ course.title }} - {{ level.difficulte }}</h1>
+    </header>
+    <main>
+        <ul>
+            {% for chapter in chapters %}
+	    <li> <a href=" {{ url_for("chapter", langage=course.title, level=level.difficulte, title=chapter.title)}}" >{{ chapter.title }} </a></li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>
+

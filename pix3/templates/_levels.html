@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levels</title>
+</head>
+<body>
+    <h1>Levels for {{ course.title }}</h1>
+    <ul>
+        {% for level in levels %}
+            <li><a href="{{ url_for('level', langage=course.title, level=level.difficulte) }}">{{ level.difficulte }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
