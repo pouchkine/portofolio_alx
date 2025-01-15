@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash , session as s
+from flask import Flask, render_template, redirect, url_for, request, flash , jsonify, session as s
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from models import User, Course, Level, Chapter, Question, session, UserCourse, Score
 
@@ -33,7 +33,7 @@ def login():
             return redirect(url_for('parcours'))
         else:
             flash('Invalid email or password')
-    return render_template('login.html')
+    return render_template('login.html') #+2438139720259
 
 @app.route("/profile")
 @login_required
@@ -192,6 +192,15 @@ def add_qcm():
     course = Course(title= title,description=description,teacher_id=teacher_id)
     return redirect(url_for("admin"))
 
+def to_dict(u):
+    u.pop("_sa_instance_state")
+    return u
+
+@app.route("/api/v1/parcours")
+def api_parcours():
+    courses = session.query(Course).all()
+    courses_dict = [to_dict(course.__dict__) for course in courses]
+    return jsonify(courses_dict)
 
 
 if __name__ == '__main__':
