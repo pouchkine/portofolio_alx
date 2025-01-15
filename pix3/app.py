@@ -134,7 +134,9 @@ def qcm(langage, level, title, rang):
             chapter = session.query(Chapter).filter_by(level_id=level_obj.id, title = title).first()
             print(chapter)
             if chapter:
+                print(course.id, level_obj.id, chapter.id)
                 q = session.query(Question).filter_by(chapter_id=chapter.id, rang = rang).first()
+                print("YOOOOOOOOOOOOOO", q.id)
                 if request.method == "POST":
                     selected_answer = request.form.get('selected_answer')
                     print("vous avez selectionner", selected_answer)
