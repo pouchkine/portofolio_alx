@@ -202,6 +202,11 @@ def api_parcours():
     courses_dict = [to_dict(course.__dict__) for course in courses]
     return jsonify(courses_dict)
 
+@app.route("/api/v1/parcours/<int:id>")
+def api_parcours_id(id):
+    course = session.query(Course).filter_by(id = id).first()
+    course_dict = to_dict(course.__dict__)
+    return jsonify(course_dict)
 
 if __name__ == '__main__':
     app.run(debug=True)
