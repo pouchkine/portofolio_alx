@@ -4,6 +4,8 @@ from models import User, Course, Level, Chapter, Question, session, UserCourse, 
 from flask_httpauth import HTTPBasicAuth
 
 app = Flask(__name__)
+auth = HTTPBasicAuth()
+
 app.config['SECRET_KEY'] = 'your_secret_key'
 
 login_manager = LoginManager()
@@ -192,6 +194,16 @@ def add_qcm():
     teacher_id = request.form.get("teacher_id")
     course = Course(title= title,description=description,teacher_id=teacher_id)
     return redirect(url_for("admin"))
+###############################################################
+@auth.verify_password 
+def verify_password(email, password):
+    emails = [email.email  for email in session.query(User).all()]
+    if email in emails and session.query(User).filter_by(email = email).first().password == password: 
+        return email
+
+@auth.error_handler 
+def unauthorized(): 
+    return jsonify({"message": "Unauthorized access"}), 401
 
 def to_dict(u):
     u.pop("_sa_instance_state")
@@ -208,6 +220,13 @@ def api_parcours_id(id):
     course = session.query(Course).filter_by(id = id).first()
     course_dict = to_dict(course.__dict__)
     return jsonify(course_dict)
+
+@app.route("/api/v1/users")
+@auth.login_required
+def api_users():
+    users = session.query(User).all()
+    users_dict = [to_dict(user.__dict__) for user in users]
+    return jsonify(users_dict)
 
 if __name__ == '__main__':
     app.run(debug=True)
