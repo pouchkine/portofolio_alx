@@ -73,3 +73,4 @@ engine = create_engine('mysql+pymysql://florian:Mot2passe_@localhost/PixelDb')
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
+#
